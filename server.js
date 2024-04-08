@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const db = require('./models');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/authRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -19,16 +20,11 @@ db.sequelize.sync().then(() => {
   });
 
 // Setup routes
+app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
-  
-app.post('/api/user/register', (req, res) => {
-    authRoutes.handle('register', req, res);
-  });
-  
-  app.post('/api/user/login', (req, res) => {
-    authRoutes.handle('login', req, res);
-  });
 
 // Start the server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
