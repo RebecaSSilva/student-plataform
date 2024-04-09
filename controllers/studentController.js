@@ -1,60 +1,48 @@
-const db = require('../models');
+const studentService = require('../services/studentService');
+const { errorHandler } = require('../utils/errorHandler');
 
-const getStudent = async (req, res) => {
+async function getStudent(req, res, next) {
   try {
-    const student = await db.Student.findAll();
-    res.status(200).json(student);
-  } catch (err) {
-    res.status(500).json({ error: 'Error fetching students' });
+    const students = await studentService.getStudents();
+    res.status(200).json(students);
+  } catch (error) {
+    next(error);
   }
-};
+}
 
-const createStudent = async (req, res) => {
+async function createStudent(req, res, next) {
   try {
-    const { name, email, ra, cpf } = req.body;
-    const newStudent = await db.Student.create({ name, email, ra, cpf });
+    const newStudent = await studentService.createStudent(req.body);
     res.status(201).json(newStudent);
-  } catch (err) {
-    res.status(500).json({ error: 'Error creating student' });
+  } catch (error) {
+    next(error);
   }
-};
+}
 
-const updateStudent = async (req, res) => {
+async function updateStudent(req, res, next) {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
-    const student = await db.Student.findByPk(id);
-
-    if (!student) {
-      return res.status(404).json({ error: 'Student not found' });
-    }
-
-    const updatedStudent = await student.update({ name, email });
+    const updatedStudent = await studentService.updateStudent(id, req.body);
     res.status(200).json(updatedStudent);
-  } catch (err) {
-    res.status(500).json({ error: 'Error updating student' });
+  } catch (error) {
+    next(error);
   }
-};
+}
 
-const deleteStudent = async (req, res) => {
+async function deleteStudent(req, res, next) {
   try {
     const { id } = req.params;
-    const student = await db.Student.findByPk(id);
-
-    if (!student) {
-      return res.status(404).json({ error: 'Student not found' });
-    }
-
-    await student.destroy();
-    res.status(200).json({ message: 'Student deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: 'Error deleting student' });
+    const result = await studentService.deleteStudent(id);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
   }
-};
+}
 
 module.exports = {
   getStudent,
   createStudent,
   updateStudent,
-  deleteStudent
+  deleteStudent,
+  errorHandler,
 };

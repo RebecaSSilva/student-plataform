@@ -7,7 +7,7 @@ module.exports = {
     await User.bulkCreate([
       {
         email: 'user1@example.com',
-        password: 'password1',
+        password: bcrypt('password1'),
         typeUser: 1,
       }
     ]);
