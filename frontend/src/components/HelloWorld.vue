@@ -18,7 +18,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('http://localhost:3000/users');
+      const response = await axios.get('http://localhost:3000/api/users');
       this.users = response.data;
     } catch (error) {
       console.error(error);

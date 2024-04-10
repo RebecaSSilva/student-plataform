@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -10,21 +11,29 @@ dotenv.config();
 
 // Initialize the app
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-db.sequelize.sync().then(() => {
-    console.log('Connected to database');
-  }).catch((err) => {
-    console.log('Error connecting to database:', err);
-  });
+// Connect to database
+db.sequelize.sync()
+  .then(() => console.log('Connected to database'))
+  .catch((err) => console.log('Error connecting to database:', err));
 
 // Setup routes
 app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
+// melhorar models 
+// criar seed para usuários 
+// criar testes 
+// usar docker
+// tratar os erros
+// documentar 
+// ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar

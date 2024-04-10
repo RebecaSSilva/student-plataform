@@ -1,12 +1,11 @@
-import { createApp } from 'vue'
-import Vuetify from 'vuetify'
+import { createApp } from 'vue';
+import App from './App.vue';
+import { createVuetify } from 'vuetify';
 
-import 'vuetify/dist/vuetify.min.css'
-import App from './App.vue'
+import 'vuetify/dist/vuetify.min.css';
 
-const app = createApp(App)
+const vuetify = createVuetify();
 
-app.use(Vuetify)
+createApp(App).use(vuetify).mount('#app');
 
-app.mount('#app')
 
