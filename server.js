@@ -26,5 +26,14 @@ app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+// melhorar models 
+// criar seed para usuários 
+// criar testes 
+// usar docker
+// tratar os erros
+// documentar 
+// ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar
