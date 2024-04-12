@@ -4,6 +4,10 @@ const studentService = require('../services/studentService');
 jest.mock('../services/studentService');
 
 describe('getStudent', () => {
+  afterEach(() => {
+    studentService.getStudents.mockRestore();
+  });
+
   it('should return students', async () => {
     const mockStudents = [{ id: 1, name: 'John', cpf: '408.254.180-20', ra: '12345678'}];
     const req = {};
