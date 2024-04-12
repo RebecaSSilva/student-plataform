@@ -1,12 +1,12 @@
 const studentService = require('../services/studentService');
-const { errorHandler } = require('../utils/errorHandler');
+const  errorHandler = require('../utils/errorHandler');
 
-async function getStudent(res, next) {
+async function getStudent(req, res, next) {
   try {
     const students = await studentService.getStudents();
     res.status(200).json(students);
   } catch (error) {
-    next(error);
+    errorHandler(error, res); // Pass the response object to the errorHandler
   }
 }
 
@@ -15,7 +15,7 @@ async function createStudent(req, res, next) {
     const newStudent = await studentService.createStudent(req.body);
     res.status(201).json(newStudent);
   } catch (error) {
-    next(error);
+    errorHandler(error, res); // Pass the response object to the errorHandler
   }
 }
 
@@ -25,7 +25,7 @@ async function updateStudent(req, res, next) {
     const updatedStudent = await studentService.updateStudent(id, req.body);
     res.status(200).json(updatedStudent);
   } catch (error) {
-    next(error);
+    errorHandler(error, res); // Pass the response object to the errorHandler
   }
 }
 
@@ -35,7 +35,7 @@ async function deleteStudent(req, res, next) {
     const result = await studentService.deleteStudent(id);
     res.status(200).json(result);
   } catch (error) {
-    next(error);
+    errorHandler(error, res); // Pass the response object to the errorHandler
   }
 }
 
@@ -43,6 +43,5 @@ module.exports = {
   getStudent,
   createStudent,
   updateStudent,
-  deleteStudent,
-  errorHandler,
+  deleteStudent
 };

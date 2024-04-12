@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { errorHandler } = require('../utils/errorHandler');
+const  errorHandler  = require('../utils/errorHandler');
 const authenticateToken = require('../middleware/authenticateToken');
 const {
   getStudent,

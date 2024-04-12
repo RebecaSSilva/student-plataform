@@ -1,7 +1,7 @@
 const User = require('../models').User;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const errorHandler = require('../utils/errorHandler');
+const errorHandler = require('../utils/errorHandler').default;
 
 // Regular expression pattern for validating email addresses
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
