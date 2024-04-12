@@ -1,5 +1,11 @@
 const userService = require('../services/authService');
 
+/**
+ * Handles user registration.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} A promise that resolves once registration is complete.
+ */
 async function register(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -10,13 +16,18 @@ async function register(req, res) {
   }
 }
 
+/**
+ * Handles user login.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} A promise that resolves once login is complete.
+ */
 async function login(req, res) {
   try {
     const { email, password } = req.body;
     const token = await userService.loginUser({ email, password });
     res.json({ token });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send('Server error');
   }
 }

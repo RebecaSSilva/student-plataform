@@ -18,5 +18,3 @@ const authenticateToken = (req, res, next) => {
 };
 
 module.exports = authenticateToken;
-
-// Verificar se admin é = 1 em users

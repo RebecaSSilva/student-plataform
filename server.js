@@ -34,6 +34,6 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // documentar 
 // paginar
 // ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar]
-// criar service para authcontroller e validar email 
+// Verificar se admin é = 1 em users
 // git flow
 //  melhorar funções ja existentes
