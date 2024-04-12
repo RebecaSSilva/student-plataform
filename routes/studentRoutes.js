@@ -9,13 +9,13 @@ const {
   deleteStudent
 } = require('../controllers/studentController');
 
-// Rotas protegidas pelo middleware de autenticação
+// Routes protected by authentication middleware
 router.get('/', authenticateToken, getStudent);
 router.post('/', authenticateToken, createStudent);
 router.put('/:id', authenticateToken, updateStudent);
 router.delete('/:id', authenticateToken, deleteStudent);
 
-// Middleware para lidar com erros
+// Middleware to handle errors
 router.use(errorHandler);
 
 module.exports = router;

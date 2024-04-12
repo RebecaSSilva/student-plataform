@@ -1,4 +1,5 @@
 const userService = require('../services/authService');
+const { errorHandler } = require('../utils/errorHandler');
 
 /**
  * Handles user registration.
@@ -12,7 +13,7 @@ async function register(req, res) {
     const newUser = await userService.registerUser({ name, email, password });
     res.send(newUser);
   } catch (error) {
-    res.status(400).send(error.message);
+    errorHandler(error, res); // Pass the response object to the errorHandler
   }
 }
 
@@ -28,7 +29,7 @@ async function login(req, res) {
     const token = await userService.loginUser({ email, password });
     res.json({ token });
   } catch (error) {
-    res.status(500).send('Server error');
+    errorHandler(error, res); // Pass the response object to the errorHandler
   }
 }
 
