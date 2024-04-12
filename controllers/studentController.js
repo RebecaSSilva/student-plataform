@@ -1,7 +1,7 @@
 const studentService = require('../services/studentService');
 const { errorHandler } = require('../utils/errorHandler');
 
-async function getStudent(req, res, next) {
+async function getStudent(res, next) {
   try {
     const students = await studentService.getStudents();
     res.status(200).json(students);

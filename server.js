@@ -26,12 +26,13 @@ app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 // melhorar os testes 
-// tratar os erros
+// tratar os erros / verificar email cpf válido 
 // documentar 
 // paginar
-// ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar
+// ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar]
+// criar service para authcontroller e validar email 

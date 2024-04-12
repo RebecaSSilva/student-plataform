@@ -5,7 +5,7 @@ jest.mock('../services/studentService');
 
 describe('getStudent', () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Limpa todos os mocks após cada teste
+    jest.clearAllMocks(); // Clear all mocks after each test
   });
 
   it('should return students', async () => {
