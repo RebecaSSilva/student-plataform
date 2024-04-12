@@ -31,7 +31,6 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 // melhorar os testes | validacao cpf e email
-// documentar 
 // paginar
 // ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar]
 // Verificar se admin é = 1 em users

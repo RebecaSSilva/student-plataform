@@ -13,11 +13,14 @@ class StudentService {
    * Retrieves all students from the database.
    * @returns {Promise<Array>} A promise that resolves to an array of student objects.
    */
-  async getStudents() {
+  async getStudents(page = 1, pageSize = 10) {
     try {
-      return await db.Student.findAll();
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+      const students = await db.Student.findAll({ offset, limit });
+      return students;
     } catch (error) {
-      errorHandler(error);
+      throw error;
     }
   }
 

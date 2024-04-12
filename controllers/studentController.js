@@ -9,10 +9,12 @@ const errorHandler = require('../utils/errorHandler');
  */
 async function getStudent(req, res) {
   try {
-    const students = await studentService.getStudents();
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
+    const students = await studentService.getStudents(page, pageSize);
     res.status(200).json(students);
   } catch (error) {
-    errorHandler(error, res); // Passes the response object to the errorHandler
+    errorHandler(error, res);
   }
 }
 
