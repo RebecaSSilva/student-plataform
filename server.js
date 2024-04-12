@@ -30,9 +30,10 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// melhorar os testes 
-// tratar os erros / verificar email cpf válido 
+// melhorar os testes | validacao cpf e email
 // documentar 
 // paginar
 // ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar]
 // criar service para authcontroller e validar email 
+// git flow
+//  melhorar funções ja existentes

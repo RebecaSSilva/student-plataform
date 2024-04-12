@@ -1,7 +1,7 @@
 const db = require('../models');
 const cpfCheck = require('cpf-check');
 const { handleError } = require('../utils/errorHandler');
-
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 class StudentService {
   async getStudents() {
     try {
@@ -13,7 +13,6 @@ class StudentService {
 
   async createStudent({ name, email, ra, cpf }) {
     // Email validation using regular expression
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       throw new Error('Invalid email format');
     }
