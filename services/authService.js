@@ -36,7 +36,7 @@ async function registerUser({ name, email, password }) {
 
     return newUser;
   } catch (error) {
-    throw error;
+    errorHandler(error);
   }
 }
 
