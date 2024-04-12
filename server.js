@@ -30,9 +30,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// criar seed para usuários 
 // criar testes 
 // usar docker
 // tratar os erros
 // documentar 
+// paginar
 // ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar
