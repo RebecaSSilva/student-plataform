@@ -1,0 +1,134 @@
+<template>
+  <v-data-table :headers="headers" :items="students" :search="search">
+    <template v-slot:top>
+      <div class="actions-table-section">
+        <div class="search">
+          <v-text-field
+            v-model="search"
+            label="Digite sua busca"
+            class="search-field"
+            append-inner-icon="mdi-magnify"
+            variant="outlined"
+            full-width="true"
+            hide-details
+            single-line
+          ></v-text-field>
+        </div>
+        <div class="action-add-student">
+          <v-btn class="mb-2" color="black" dark @click="$emit('openDialogStudent')">
+            Cadastrar Aluno
+          </v-btn>
+        </div>
+      </div>
+      <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-card>
+          <v-card-title class="text-h5"
+            >Tem certeza que deseja deletar esse estudante?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue-darken-1" variant="text" @click="closeDelete"
+              >Cancelar</v-btn
+            >
+            <v-btn
+              color="blue-darken-1"
+              variant="text"
+              @click="deleteItemConfirm"
+              >Deletar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="$emit('editStudent', item)"> mdi-pencil </v-icon>
+      <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+    </template>
+  </v-data-table>
+</template>
+
+<script>
+export default {
+  name: "StudentView",
+
+  data: () => ({
+    search: "",
+    dialogDelete: false,
+    headers: [
+      {
+        title: "Registro Acadêmico",
+        align: "start",
+        sortable: true,
+        key: "registroAcademicio",
+      },
+      { title: "Nome", key: "nome", sortable: true },
+      { title: "CPF", key: "cpf", sortable: true },
+      { title: "Ações", key: "actions", sortable: false },
+    ],
+    students: [],
+    editedIndex: -1,
+    editedItem: {
+      registroAcademicio: "",
+      nome: "",
+      cpf: "",
+    },
+    defaultItem: {
+      registroAcademicio: "",
+      nome: "",
+      cpf: "",
+    },
+  }),
+  watch: {
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+  },
+  created() {
+    this.initialize();
+  },
+  methods: {
+    initialize() {
+      this.students = [
+        {
+          registroAcademicio: "1231213",
+          nome: "testeee",
+          cpf: "2322231321",
+        },
+        {
+          registroAcademicio: "1231213",
+          nome: "testeee1",
+          cpf: "2322231321",
+        },
+        {
+          registroAcademicio: "1231213",
+          nome: "testeee2",
+          cpf: "2322231321",
+        },
+        {
+          registroAcademicio: "1231213",
+          nome: "testeee3",
+          cpf: "2322231321",
+        },
+      ];
+    },
+    deleteItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    deleteItemConfirm() {
+      this.students.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+  },
+};
+</script>
