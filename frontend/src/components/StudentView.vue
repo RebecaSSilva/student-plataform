@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/axiosConfig';
 
 export default {
   name: "StudentView",
@@ -93,12 +93,7 @@ export default {
   methods: {
     async getStudents() {
       try {
-        const response = await axios.get('http://localhost:8000/api/student/', {
-          headers: {
-            'Authorization': 'Bearer '+localStorage.getItem('token'),
-            'Access-Control-Allow-Origin': 'http://localhost:8081',
-          }
-        });
+        const response = await axios.get('/');
         this.students = response.data;
       } catch (error) {
         console.error(error);
@@ -110,9 +105,18 @@ export default {
       this.dialogDelete = true;
     },
 
-    deleteItemConfirm() {
-      this.students.splice(this.editedIndex, 1);
-      this.closeDelete();
+    async deleteItemConfirm() {
+      try {
+        const response = await axios.delete(`/${this.editedItem.id}`);
+        if (response.status === 200) {
+          this.students.splice(this.editedIndex, 1);
+          this.closeDelete();
+        } else {
+          console.error('Falha ao excluir o estudante.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     closeDelete() {
       this.dialogDelete = false;
