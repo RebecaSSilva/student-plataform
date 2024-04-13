@@ -1,0 +1,64 @@
+.v-navigation-drawer__content {
+    border: 2px solid black;
+  }
+  .title-module {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+  }
+  .v-navigation-drawer__content .v-toolbar__content {
+    height: 38px;
+    width: 100%;
+    justify-content: center;
+  }
+  .actions-table-section {
+    display: flex;
+    width: 100%;
+    border: 2px black solid;
+    padding: 50px 0;
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+  }
+  .action-add-student {
+    width: 20%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .title-table-section {
+    border: 2px black solid;
+    border-bottom: 0;
+    background-color: #dbdbdb;
+    height: 38px;
+  }
+  .search-field {
+    margin-left: 16px;
+  }
+  .title-table-section .v-toolbar-title {
+    text-align: center;
+    margin: 5px 0;
+  }
+  
+  .list-module {
+    border: 2px solid black;
+  }
+  .main-content {
+    border: 2px solid black;
+  }
+  .v-table__wrapper thead {
+    background-color: #dbdbdb;
+  }
+  .input-group {
+    display: flex;
+  }
+  .outline-label {
+    border: 1px solid black;
+    width: 100%;
+    border-radius: 8px 0 0 8px;
+    height: 40px;
+  }
