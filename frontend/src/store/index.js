@@ -1,18 +1,18 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    user: null,
+    project : 'Vue3 + Vuetify',
+    desc : 'Starter Template',
+    username : "100SANG",
+    email: '100sang.net@gmail.com',
+    theme: 'light'
+  },
+  getters: {
   },
   mutations: {
-    setUser(state, payload) {
-      state.user = payload;
-    },
   },
   actions: {
-    // Adicionar ações
-  },
-  modules: {
-    // adicionar módulos
   },
 });
+ 

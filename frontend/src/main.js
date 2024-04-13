@@ -1,11 +1,22 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import { createVuetify } from 'vuetify';
+import { createApp } from 'vue'
 
-import 'vuetify/dist/vuetify.min.css';
+import vuetify from '@/plugins/vuetify'; // Vue-Router
 
-const vuetify = createVuetify();
+import router from './router'; // Vue-Router
+import store from "./store"; // Vuex
+import * as filter from './filter'; // Filter
 
-createApp(App).use(vuetify).mount('#app');
+import App from './App.vue'
 
+// Create Vue Instance
+const app = createApp(App);
 
+app.use(vuetify);
+app.use(router);
+app.use(store);
+
+// Global Var 
+app.config.globalProperties.$store = store;
+app.config.globalProperties.$filters = filter;
+
+app.mount('#app');
