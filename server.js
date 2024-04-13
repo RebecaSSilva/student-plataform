@@ -14,7 +14,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// CORS middleware
+app.use(cors({
+  origin: 'http://localhost:8081', // Permitir apenas solicitações do frontend hospedado em http://localhost:8081
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir métodos específicos
+  allowedHeaders: ['Content-Type', 'Authorization'] // Permitir cabeçalhos específicos
+}));
 
 // Connect to database
 db.sequelize.sync()
@@ -26,8 +32,9 @@ app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 
 // git flow
 // testar migrations seed e criação do banco após concluir todos os ajustes

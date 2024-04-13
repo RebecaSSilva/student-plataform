@@ -49,20 +49,26 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "StudentView",
 
+  mounted(){
+    this.getStudents();
+  },
   data: () => ({
     search: "",
     dialogDelete: false,
     headers: [
       {
-        title: "Registro Acadêmico",
+        title: "RA",
         align: "start",
         sortable: true,
-        key: "registroAcademicio",
+        key: "ra",
       },
-      { title: "Nome", key: "nome", sortable: true },
+      { title: "Nome", key: "name", sortable: true },
+      { title: "E-mail", key: "email", sortable: true },
       { title: "CPF", key: "cpf", sortable: true },
       { title: "Ações", key: "actions", sortable: false },
     ],
@@ -84,33 +90,19 @@ export default {
       val || this.closeDelete();
     },
   },
-  created() {
-    this.initialize();
-  },
   methods: {
-    initialize() {
-      this.students = [
-        {
-          registroAcademicio: "1231213",
-          nome: "testeee",
-          cpf: "2322231321",
-        },
-        {
-          registroAcademicio: "1231213",
-          nome: "testeee1",
-          cpf: "2322231321",
-        },
-        {
-          registroAcademicio: "1231213",
-          nome: "testeee2",
-          cpf: "2322231321",
-        },
-        {
-          registroAcademicio: "1231213",
-          nome: "testeee3",
-          cpf: "2322231321",
-        },
-      ];
+    async getStudents() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/student/', {
+          headers: {
+            'Authorization': 'Bearer '+localStorage.getItem('token'),
+            'Access-Control-Allow-Origin': 'http://localhost:8081',
+          }
+        });
+        this.students = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
     deleteItem(item) {
       this.editedIndex = this.students.indexOf(item);
