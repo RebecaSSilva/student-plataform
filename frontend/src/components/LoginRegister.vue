@@ -31,18 +31,9 @@
 
 <script>
 import AuthService from '../AuthService';
-import { VCard, VCardTitle, VCardText, VForm, VTextField, VBtn } from 'vuetify/lib/components';
-import { mapActions } from 'vuex';
+import router from '../router/index';
 
 export default {
-  components: {
-    VCard,
-    VCardTitle,
-    VCardText,
-    VForm,
-    VTextField,
-    VBtn
-  },
   data() {
     return {
       email: '',
@@ -50,18 +41,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setUser']),
     async login() {
       try {
         const response = await AuthService.login(this.email, this.password);
         const token = response.data.token;
         localStorage.setItem('token', token);
-        this.setUser({ email: this.email, token }); 
-        if (this.$router) {
-          this.$router.push('/dashboard');
-        } else {
-          console.error("$router is not available");
-        }
+        router.push('/');
       } catch (error) {
         console.error(error);
       }
