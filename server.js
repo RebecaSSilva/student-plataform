@@ -36,10 +36,19 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// git flow
-// testar migrations seed e criação do banco após concluir todos os ajustes
-// melhorar os testes | validacao cpf e email
 // documentar o que falta
-// adicionar logout
+// adicionar logout : a lógica e alterar o css 
 // no frontend 
 // adicionar getStudentById
+
+// Se for criar estudante ele mostra nao exibe RA se for editar o campo CPF e RA não podem ser editados 
+
+// add docker 
+// testar migrations seed e criação do banco após concluir todos os ajustes
+// melhorar os testes | validacao cpf e email
+// git flow
+// colocar back end dentro de uma pasta
+// relacionar as tabelas one to many etc
+// ajustar a rota de login do front end para pegar direto do back end 
+// adicionar as validações dos campso no front end 
+// usar ts

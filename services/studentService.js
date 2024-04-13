@@ -1,6 +1,7 @@
 const db = require('../models');
 const cpfCheck = require('cpf-check');
-const { errorHandler } = require('../utils/errorHandler');
+const  errorHandler = require('../utils/errorHandler');
+// const { v4: uuidv4 } = require('uuid');
 
 // Regular expression pattern for validating email addresses
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,23 +30,25 @@ class StudentService {
    * @param {Object} studentData - The data of the student to be created.
    * @param {string} studentData.name - The name of the student.
    * @param {string} studentData.email - The email of the student.
-   * @param {string} studentData.ra - The registration number of the student.
-   * @param {string} studentData.cpf - The CPF number of the student.
+   * @param {bigint} studentData.ra - The registration number of the student.
+   * @param {bigint} studentData.cpf - The CPF number of the student.
    * @returns {Promise<Object>} A promise that resolves to the created student object.
    */
-  async createStudent({ name, email, ra, cpf }) {
+  async createStudent({ name, email, cpf }) {
     // Email validation using regular expression
     if (!emailRegex.test(email)) {
       throw new Error('Invalid email format');
     }
-
+  
     // CPF validation using cpf-check library
     if (!cpfCheck.validate(cpf)) {
       throw new Error('Invalid CPF');
     }
-
+  
     try {
-      return await db.Student.create({ name, email, ra, cpf });
+      // const ra = uuidv4().replace(/-/g, '').slice(0, 20); // Generate a unique key for RA
+      const student = await db.Student.create({ name, email, ra, cpf });
+      return student.toJSON(); // Returns the data of the created student
     } catch (error) {
       errorHandler(error);
     }

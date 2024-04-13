@@ -33,7 +33,7 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="name"
+                    v-model="email"
                     placeholder="Informe apenas um e-mail"
                     variant="outlined"
                     density="compact"
@@ -52,7 +52,7 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="name"
+                    v-model="ra"
                     placeholder="Informe o registro acadêmico"
                     variant="outlined"
                     density="compact"
@@ -71,8 +71,8 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="name"
-                    placeholder="Informe o número do documento"
+                    v-model="cpf"
+                    placeholder="Informe o número do CPF"
                     variant="outlined"
                     density="compact"
                     single-line
@@ -105,19 +105,34 @@ export default {
     data: () => ({}),
     async save() {
       try {
-        if (this.student) {
-          // Se student estiver definido, é uma edição
-          await axios.put(`/${this.student.id}`, this.student);
-          // Lógica de atualização após a edição
+        if (this.student.id) {
+          // If student ID exists, it's an edit
+          await axios.put(`/${this.student.id}`, {
+            name: this.student.name,
+            email: this.student.email
+          });
+          // Logic for handling update after edit
+          console.log('Student updated successfully!');
         } else {
-          // Se student não estiver definido, é um novo cadastro
-          await axios.post('/', this.student);
-          // Lógica de atualização após o cadastro
+          // If student ID doesn't exist, it's a new student  
+          // Check if a student with the same RA already exists
+          const existingStudent = await axios.get(`/${this.student.id}`);
+          if (existingStudent.data) {
+            console.log('A student with the same ID already exists.');
+            return; // Exit without creating a new student
+          }
+          // If no student with the same RA exists, proceed with creating the new student
+          await axios.put(`/${this.student.id}`, {
+            name: this.student.name,
+            cpf: this.student.cpf,
+            email: this.student.email
+          });
+          console.log('A student was been created.');
         }
-        // Lógica comum para atualizar a lista de estudantes ou outras ações necessárias
       } catch (error) {
-        console.error(error);
+        console.error('Error:', error);
       }
     },  
 };
+
 </script>

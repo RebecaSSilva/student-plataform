@@ -3,6 +3,9 @@
       <v-layout>
         <SideMenu />
         <v-main>
+          <v-list>
+            <v-btn class="w-100" prepend-icon="mdi-logout" flat @click="logout">Logout</v-btn>
+          </v-list>
           <v-row no-gutters>
             <v-col cols="12">
               <div class="title-table-section">

@@ -1,4 +1,4 @@
-import { getStudents, deleteStudent as _deleteStudent } from '../services/studentService';
+import { getStudents, createStudent, deleteStudent, updateStudent } from '../services/studentService';
 import errorHandler from '../utils/errorHandler';
 
 /**
@@ -23,8 +23,8 @@ async function getStudent(req, res) {
 * @param {Object} studentData - The data of the student to be created.
 * @param {string} studentData.name - The name of the student.
 * @param {string} studentData.email - The email of the student.
-* @param {string} studentData.ra - The registration number of the student.
-* @param {string} studentData.cpf - The CPF (Brazilian national identification) of the student.
+* @param {bigint} studentData.ra - The registration number of the student.
+* @param {bigint} studentData.cpf - The CPF (Brazilian national identification) of the student.
 * @returns {Promise<Object>} A promise that resolves to the created student object.
 * @throws {Error} If the email format is invalid or the CPF is invalid.
 */
