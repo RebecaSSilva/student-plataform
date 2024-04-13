@@ -31,6 +31,5 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // git flow
 // testar migrations seed e criação do banco após concluir todos os ajustes
-// trocar para porta 3000 dps
 // melhorar os testes | validacao cpf e email
 // documentar o que falta

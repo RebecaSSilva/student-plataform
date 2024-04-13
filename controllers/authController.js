@@ -1,5 +1,5 @@
 const userService = require('../services/authService');
-const { errorHandler } = require('../utils/errorHandler');
+const errorHandler = require('../utils/errorHandler');
 
 /**
  * Handles user registration.
@@ -20,7 +20,7 @@ async function register(req, res) {
 /**
  * Handles user login.
  * @param {Object} req - The request object.
- * @param {Object} res - The response object.
+ * @param {Object} res - The response object. b
  * @returns {Promise<void>} A promise that resolves once login is complete.
  */
 async function login(req, res) {
