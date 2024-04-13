@@ -26,13 +26,10 @@ app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+// git flow
+// testar migrations seed e criação do banco após concluir todos os ajustes
 // trocar para porta 3000 dps
 // melhorar os testes | validacao cpf e email
-// testar paginacao
-// ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar]
-// Verificar se admin é = 1 em users
-// git flow
-//  melhorar funções ja existentes
