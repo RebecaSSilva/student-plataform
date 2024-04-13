@@ -33,12 +33,14 @@
 import SideMenu from "./components/SideMenu.vue";
 import StudentView from "./components/StudentView.vue";
 import StudentForm from "./components/StudentForm.vue";
+import LoginRegister from './components/LoginRegister.vue'
 
 export default {
   data: () => ({
     dialogStudent: false,
   }),
   components: {
+    LoginRegister,
     SideMenu,
     StudentView,
     StudentForm,
