@@ -40,3 +40,6 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // testar migrations seed e criação do banco após concluir todos os ajustes
 // melhorar os testes | validacao cpf e email
 // documentar o que falta
+// adicionar logout
+// no frontend 
+// adicionar getStudentById

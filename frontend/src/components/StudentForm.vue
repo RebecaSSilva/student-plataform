@@ -96,10 +96,28 @@
 </template>
 
 <script>
+import axios from '@/axiosConfig';
+
 export default {
     props: {
         student: Object
     },
     data: () => ({}),
+    async save() {
+      try {
+        if (this.student) {
+          // Se student estiver definido, é uma edição
+          await axios.put(`/${this.student.id}`, this.student);
+          // Lógica de atualização após a edição
+        } else {
+          // Se student não estiver definido, é um novo cadastro
+          await axios.post('/', this.student);
+          // Lógica de atualização após o cadastro
+        }
+        // Lógica comum para atualizar a lista de estudantes ou outras ações necessárias
+      } catch (error) {
+        console.error(error);
+      }
+    },  
 };
 </script>

@@ -1,7 +1,7 @@
 const User = require('../models').User;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const errorHandler = require('../utils/errorHandler').default;
+const errorHandler = require('../utils/errorHandler');
 
 // Regular expression pattern for validating email addresses
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,7 +63,7 @@ async function loginUser({ email, password }) {
 
     // Generate an authentication token valid for 1 hour
     const token = jwt.sign({ id: existingUser.id, email: existingUser.email }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: '4h',
     });
 
     return token;
