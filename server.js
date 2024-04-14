@@ -14,7 +14,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// CORS middleware
+app.use(cors({
+  origin: 'http://localhost:8081', // Permitir apenas solicitações do frontend hospedado em http://localhost:8081
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir métodos específicos
+  allowedHeaders: ['Content-Type', 'Authorization'] // Permitir cabeçalhos específicos
+}));
 
 // Connect to database
 db.sequelize.sync()
@@ -26,13 +32,23 @@ app.use('/api/student', studentRoutes);
 app.use('/api/user', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// criar testes 
-// usar docker
-// tratar os erros
-// documentar 
-// paginar
-// ajustar a controller de estudantes para caso seja admin poder excluir,cadastrar e editar
+// documentar o que falta
+// adicionar logout : a lógica e alterar o css 
+// no frontend 
+// adicionar getStudentById
+
+// Se for criar estudante ele mostra nao exibe RA se for editar o campo CPF e RA não podem ser editados 
+
+// add docker 
+// testar migrations seed e criação do banco após concluir todos os ajustes
+// melhorar os testes | validacao cpf e email
+// git flow
+// colocar back end dentro de uma pasta
+// relacionar as tabelas one to many etc
+// ajustar a rota de login do front end para pegar direto do back end 
+// adicionar as validações dos campso no front end 
+// usar ts

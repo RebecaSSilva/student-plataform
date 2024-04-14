@@ -1,41 +1,87 @@
 const studentService = require('../services/studentService');
-const { errorHandler } = require('../utils/errorHandler');
+const errorHandler = require('../utils/errorHandler');
 
-async function getStudent(req, res, next) {
+/**
+ * Retrieves all students from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} A promise that resolves with the retrieved students or an error.
+ */
+async function getStudent(req, res) {
   try {
-    const students = await studentService.getStudents();
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
+    const students = await studentService.getStudents(page, pageSize);
     res.status(200).json(students);
   } catch (error) {
-    next(error);
+    errorHandler(error, res);
   }
 }
 
-async function createStudent(req, res, next) {
-  try {
-    const newStudent = await studentService.createStudent(req.body);
-    res.status(201).json(newStudent);
-  } catch (error) {
-    next(error);
-  }
+/**
+ * Creates a new student.
+* @param {Object} studentData - The data of the student to be created.
+* @param {string} studentData.name - The name of the student.
+* @param {string} studentData.email - The email of the student.
+* @param {bigint} studentData.ra - The registration number of the student.
+* @param {bigint} studentData.cpf - The CPF (Brazilian national identification) of the student.
+* @returns {Promise<Object>} A promise that resolves to the created student object.
+* @throws {Error} If the email format is invalid or the CPF is invalid.
+*/
+async function createStudent({ name, email, ra, cpf }) {
+ // Email validation using regular expression
+ if (!emailRegex.test(email)) {
+   throw new Error('Invalid email format');
+ }
+
+ // CPF validation using cpf-check library
+ if (!cpfCheck.validate(cpf)) {
+   throw new Error('Invalid CPF');
+ }
+
+ try {
+   const student = await db.Student.create({ name, email, ra, cpf });
+   return student.toJSON(); // Returns the data of the created student
+ } catch (error) {
+   errorHandler(error);
+ }
 }
 
-async function updateStudent(req, res, next) {
-  try {
-    const { id } = req.params;
-    const updatedStudent = await studentService.updateStudent(id, req.body);
-    res.status(200).json(updatedStudent);
-  } catch (error) {
-    next(error);
-  }
+/**
+* Updates an existing student record in the database.
+* @param {number} id - The ID of the student to be updated.
+* @param {Object} updatedData - The updated data of the student.
+* @param {string} updatedData.name - The updated name of the student.
+* @param {string} updatedData.email - The updated email of the student.
+* @returns {Promise<Object>} A promise that resolves to the updated student object.
+* @throws {Error} If the student with the specified ID is not found.
+*/
+async function updateStudent(id, { name, email }) {
+ try {
+   const student = await db.Student.findByPk(id);
+   if (!student) {
+     throw new Error('Student not found');
+   }
+   await student.update({ name, email });
+   return student.toJSON(); // Returns the data of the updated student
+ } catch (error) {
+   errorHandler(error);
+ }
 }
 
-async function deleteStudent(req, res, next) {
+/**
+ * Deletes an existing student.
+ * @param {Object} req - The request object containing the student ID.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} A promise that resolves with a success message or an error.
+ */
+async function deleteStudent(req, res) {
   try {
     const { id } = req.params;
     const result = await studentService.deleteStudent(id);
     res.status(200).json(result);
   } catch (error) {
-    next(error);
+    errorHandler(error, res); // Passes the response object to the errorHandler
   }
 }
 
@@ -43,6 +89,5 @@ module.exports = {
   getStudent,
   createStudent,
   updateStudent,
-  deleteStudent,
-  errorHandler,
+  deleteStudent
 };
