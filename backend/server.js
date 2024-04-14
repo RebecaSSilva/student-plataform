@@ -32,4 +32,4 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // relacionar as tabelas one to many etc | falta associar isso 
-// adicionar biblioteca para ajustar que atualiza dependencias
+// ajustar paginação e melhorar testes
