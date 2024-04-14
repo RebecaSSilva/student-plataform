@@ -3,12 +3,9 @@ const studentService = require('../services/studentService');
 
 jest.mock('../services/studentService');
 
-/**
- * Test suite for the getStudent function in the student controller.
- */
 describe('getStudent', () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Limpa todos os mocks após cada teste
+    jest.clearAllMocks(); // Clear all mocks after each test
   });
 
   it('should return students', async () => {
@@ -20,8 +17,7 @@ describe('getStudent', () => {
     };
     const next = jest.fn();
 
-    // Mockando a função getStudents corretamente
-    studentService.getStudents = jest.fn().mockResolvedValue(mockStudents);
+    studentService.getStudents.mockResolvedValue(mockStudents);
 
     await studentController.getStudent(req, res, next);
 
@@ -40,8 +36,7 @@ describe('getStudent', () => {
     };
     const next = jest.fn();
 
-    // Mockando a função getStudents para retornar um erro
-    studentService.getStudents = jest.fn().mockRejectedValue(new Error(errorMessage));
+    studentService.getStudents.mockRejectedValue(new Error(errorMessage));
 
     await studentController.getStudent(req, res, next);
 
@@ -58,7 +53,7 @@ describe('createStudent', () => {
   });
 
   it('should create a new student', async () => {
-    const mockStudentData = { name: 'John Doe', email: 'john.doe@example.com', cpf: '408.254.180-20' };
+    const mockStudentData = { name: 'John Doe', email: 'john.doe@example.com', ra: '12345678', cpf: '408.254.180-20' };
     const req = { body: mockStudentData };
     const res = {
       status: jest.fn().mockReturnThis(),
