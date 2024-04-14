@@ -1,5 +1,5 @@
 # Use the Node.js base image
-FROM node:14
+FROM node:20
 
 # Create and set the working directory inside the container
 WORKDIR /app/backend

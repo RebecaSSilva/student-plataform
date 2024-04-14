@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:create": "node createDatabase.js",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "db:setup": "npm run db:create && npm run db:migrate && npm run db:seed"
   },
   "author": "",
   "license": "ISC",
