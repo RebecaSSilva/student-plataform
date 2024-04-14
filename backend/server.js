@@ -31,10 +31,6 @@ app.use('/api/user', authRoutes);
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-
 // add docker 
-// relacionar as tabelas one to many etc
-// testar migrations seed e criação do banco após concluir todos os ajustes
-// git flow
-// validar para pegar nome completo e não só o primeiro nome 
+// relacionar as tabelas one to many etc | falta associar isso 
 // adicionar biblioteca para ajustar que atualiza dependencias
