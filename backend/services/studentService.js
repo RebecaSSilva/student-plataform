@@ -45,29 +45,35 @@ class StudentService {
    * @returns {Promise<Object>} A promise that resolves to the created student object.
    */
   async createStudent({ name, email, cpf }) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    // Verifica se o e-mail possui um formato válido
-    if (!emailRegex.test(email)) {
-        throw new Error('Invalid email format');
-    }
-    // Verifica se o e-mail já está em uso
-    const existingEmailStudent = await db.Student.findOne({ where: { email } });
-    if (existingEmailStudent) {
-        throw new Error('Email already in use');
-    }
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      // Checks if the email has a valid format
+      if (!emailRegex.test(email)) {
+          throw new Error('Invalid email format');
+      }
+      // Checks if the email is already in use
+      const existingEmailStudent = await db.Student.findOne({ where: { email } });
+      if (existingEmailStudent) {
+          throw new Error('Email already in use');
+      }
 
-    const existingCpfStudent = await db.Student.findOne({ where: { cpf } });
-    if (existingCpfStudent) {
-      throw new Error('CPF already in use');
-    }
-    try {
-      const ra = this.generateRandomNumber(1, 9999999999999999999); // Acesso à função usando 'this'
+      // Checks if the CPF is already in use
+      const existingCpfStudent = await db.Student.findOne({ where: { cpf } });
+      if (existingCpfStudent) {
+          throw new Error('CPF already in use');
+      }
 
-      const student = await db.Student.create({ name, email, ra, cpf });
-      return student.toJSON(); // Returns the data of the created student
-    } catch (error) {
-      throw new Error('Error creating student: ' + error.message); // Lançar um novo erro com mensagem mais específica
-    }
+      try {
+          const ra = this.generateRandomNumber(1, 9999999999999999999); // Generate random RA
+          let existingRaStudent;
+          do {
+              ra = this.generateRandomNumber(1, 9999999999999999999); // Generate random RA
+              existingRaStudent = await db.Student.findOne({ where: { ra } });
+          } while (existingRaStudent); // Keep generating a new RA until it's unique
+          const student = await db.Student.create({ name, email, ra, cpf });
+          return student.toJSON(); // Returns the data of the created student
+      } catch (error) {
+          throw new Error('Error creating student: ' + error.message); // Throws a new error with a more specific message
+      }
   }
   /**
   * Generates a random number within the specified range.
