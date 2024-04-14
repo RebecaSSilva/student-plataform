@@ -7,6 +7,9 @@ function errorHandler(err, res) {
     case 'Email already in use':
       message = 'Email already in use';
       break;
+    case 'CPF already in use':
+      message = 'CPF already in use';
+      break;
     case 'User not found':
       message = 'User not found';
       break;

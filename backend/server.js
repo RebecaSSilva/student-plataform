@@ -32,7 +32,6 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// ajustar paginação
 // add docker 
 // relacionar as tabelas one to many etc
 // testar migrations seed e criação do banco após concluir todos os ajustes
