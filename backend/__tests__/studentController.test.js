@@ -9,7 +9,7 @@ describe('getStudent', () => {
   });
 
   it('should return students', async () => {
-    const mockStudents = [{ id: 1,name: 'John', email: 'john@hotmail.com', cpf: '40825418020', ra: '12345678'}];
+    const mockStudents = [{ id: 1, name: 'John', email: 'john@hotmail.com', cpf: '40825418020', ra: '12345678' }];
     const req = {};
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -17,7 +17,8 @@ describe('getStudent', () => {
     };
     const next = jest.fn();
 
-    studentService.getStudents.mockResolvedValue(mockStudents);
+    // Mockando a função getStudents corretamente
+    studentService.getStudents = jest.fn().mockResolvedValue(mockStudents);
 
     await studentController.getStudent(req, res, next);
 
@@ -36,7 +37,8 @@ describe('getStudent', () => {
     };
     const next = jest.fn();
 
-    studentService.getStudents.mockRejectedValue(new Error(errorMessage));
+    // Mockando a função getStudents para retornar um erro
+    studentService.getStudents = jest.fn().mockRejectedValue(new Error(errorMessage));
 
     await studentController.getStudent(req, res, next);
 
@@ -62,7 +64,7 @@ describe('createStudent', () => {
     const next = jest.fn();
 
     const mockCreatedStudent = { id: 1, ...mockStudentData };
-    studentService.createStudent.mockResolvedValue(mockCreatedStudent);
+    studentService.createStudent = jest.fn().mockResolvedValue(mockCreatedStudent);
 
     await studentController.createStudent(req, res, next);
 
@@ -82,7 +84,7 @@ describe('createStudent', () => {
     };
     const next = jest.fn();
 
-    studentService.createStudent.mockRejectedValue(new Error(errorMessage));
+    studentService.createStudent = jest.fn().mockRejectedValue(new Error(errorMessage));
 
     await studentController.createStudent(req, res, next);
 
@@ -92,6 +94,7 @@ describe('createStudent', () => {
     expect(res.json).not.toHaveBeenCalled();
   });
 });
+
 
 describe('updateStudent', () => {
   afterEach(() => {
@@ -139,7 +142,6 @@ describe('updateStudent', () => {
     expect(res.json).not.toHaveBeenCalled();
   });
 });
-
 
 describe('deleteStudent', () => {
   afterEach(() => {
