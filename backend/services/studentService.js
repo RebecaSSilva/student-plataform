@@ -13,12 +13,12 @@ class StudentService {
    */
   async getStudents(page = 1, pageSize = 10) {
     try {
-        const offset = (page - 1) * pageSize;
-        const limit = pageSize;
-        const students = await db.Student.findAll({ offset, limit });
-        return students;
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+      const students = await db.Student.findAll({ offset, limit });
+      return students;
     } catch (error) {
-        throw error;
+      throw error;
     }
   }
 
