@@ -20,10 +20,10 @@ async function getStudent(req, res) {
 
 async function getStudentById(req, res) {
   try {
-    const studentId = req.params.id; // Obtém o ID do parâmetro da URL
-    const student = await studentService.getStudent(studentId); // Chama o serviço para obter o estudante por ID
+    const studentId = req.params.id; // The request id.
+    const student = await studentService.getStudent(studentId); // Call the service to get the student
     if (!student) {
-      return res.status(404).json({ message: 'Estudante não encontrado' }); // Retorna um erro 404 se o estudante não for encontrado
+      return res.status(404).json({ message: 'Estudante não encontrado' }); // Return error if student is not found
     }
     res.status(200).json(student); // Retorna o estudante encontrado
   } catch (error) {
