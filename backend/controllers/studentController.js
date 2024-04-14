@@ -18,33 +18,34 @@ async function getStudent(req, res) {
   }
 }
 
+async function getStudentById(req, res) {
+  try {
+    const studentId = req.params.id; // Obtém o ID do parâmetro da URL
+    const student = await studentService.getStudent(studentId); // Chama o serviço para obter o estudante por ID
+    if (!student) {
+      return res.status(404).json({ message: 'Estudante não encontrado' }); // Retorna um erro 404 se o estudante não for encontrado
+    }
+    res.status(200).json(student); // Retorna o estudante encontrado
+  } catch (error) {
+    errorHandler(error, res); 
+  }
+}
 /**
  * Creates a new student.
-* @param {Object} studentData - The data of the student to be created.
 * @param {string} studentData.name - The name of the student.
 * @param {string} studentData.email - The email of the student.
-* @param {bigint} studentData.ra - The registration number of the student.
 * @param {bigint} studentData.cpf - The CPF (Brazilian national identification) of the student.
 * @returns {Promise<Object>} A promise that resolves to the created student object.
 * @throws {Error} If the email format is invalid or the CPF is invalid.
 */
-async function createStudent({ name, email, ra, cpf }) {
- // Email validation using regular expression
- if (!emailRegex.test(email)) {
-   throw new Error('Invalid email format');
- }
-
- // CPF validation using cpf-check library
- if (!cpfCheck.validate(cpf)) {
-   throw new Error('Invalid CPF');
- }
-
- try {
-   const student = await db.Student.create({ name, email, ra, cpf });
-   return student.toJSON(); // Returns the data of the created student
- } catch (error) {
-   errorHandler(error);
- }
+async function createStudent(req, res) {
+  try {
+    const { name, email, cpf } = req.body;
+    const createdStudent = await studentService.createStudent({ name, email, cpf });
+    res.status(201).json(createdStudent);
+  } catch (error) {
+    errorHandler(error, res);
+  }
 }
 
 /**
@@ -87,6 +88,7 @@ async function deleteStudent(req, res) {
 
 module.exports = {
   getStudent,
+  getStudentById,
   createStudent,
   updateStudent,
   deleteStudent
