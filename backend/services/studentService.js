@@ -63,8 +63,8 @@ class StudentService {
       }
 
       try {
-          const ra = this.generateRandomNumber(1, 9999999999999999999); // Generate random RA
-          let existingRaStudent;
+        let ra;
+        let existingRaStudent;
           do {
               ra = this.generateRandomNumber(1, 9999999999999999999); // Generate random RA
               existingRaStudent = await db.Student.findOne({ where: { ra } });
