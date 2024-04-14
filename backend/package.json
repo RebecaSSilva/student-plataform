@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "docker:setup": "docker-compose run nodejs npx sequelize-cli db:create && docker-compose run nodejs npx sequelize-cli db:migrate && docker-compose run nodejs npx sequelize-cli db:seed:all"
   },
   "author": "",
   "license": "ISC",
