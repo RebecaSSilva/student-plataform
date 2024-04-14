@@ -4,6 +4,8 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000/api/student', // Define a base URL para todas as solicitações
   headers: {
     'Access-Control-Allow-Origin': 'http://localhost:8081', // Define a origem permitida para CORS
+    'Content-Type': 'application/json'
+
   },
 });
 

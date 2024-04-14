@@ -18,6 +18,9 @@
           <v-list-tile-title>Alunos</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+        <v-btn class="w-100" prepend-icon="mdi-logout" flat @click="logout">
+          Logout
+        </v-btn>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -26,8 +29,11 @@
 export default {
   name: "SideMenu",
 
-  data() {
-    return {};
-  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push("/login");
+    }
+  }
 };
 </script>

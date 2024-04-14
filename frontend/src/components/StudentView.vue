@@ -53,7 +53,7 @@ import axios from '@/axiosConfig';
 
 export default {
   name: "StudentView",
-
+ 
   mounted(){
     this.getStudents();
   },
@@ -73,7 +73,6 @@ export default {
       { title: "Ações", key: "actions", sortable: false },
     ],
     students: [],
-    editedIndex: -1,
     editedItem: {
       registroAcademicio: "",
       nome: "",
@@ -86,6 +85,9 @@ export default {
     },
   }),
   watch: {
+    updateList() {
+      this.getStudents();
+    },
     dialogDelete(val) {
       val || this.closeDelete();
     },
@@ -95,8 +97,13 @@ export default {
       try {
         const response = await axios.get('/');
         this.students = response.data;
+
       } catch (error) {
-        console.error(error);
+        
+        this.$emit("snackbar", {show: true, text:"Server was unable to respond.Please try again later", color:"error"})
+        this.$emit("updateList"); 
+
+
       }
     },
     deleteItem(item) {
@@ -109,13 +116,14 @@ export default {
       try {
         const response = await axios.delete(`/${this.editedItem.id}`);
         if (response.status === 200) {
-          this.students.splice(this.editedIndex, 1);
+          this.$emit("snackbar", {show: true, text:`Student ${this.editedItem.name} was deleted succesfuly.`, color:"success"})
           this.closeDelete();
+          this.getStudents();
         } else {
-          console.error('Falha ao excluir o estudante.');
+          this.$emit("snackbar", {show: true, text:`Failed to delet student.`, color:"error"})
         }
       } catch (error) {
-        console.error(error);
+        this.$emit("snackbar", {show: true, text:"Server was unable to respond.Please try again later", color:"error"})
       }
     },
     closeDelete() {
