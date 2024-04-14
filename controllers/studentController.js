@@ -1,5 +1,5 @@
-import { getStudents, createStudent, deleteStudent, updateStudent } from '../services/studentService';
-import errorHandler from '../utils/errorHandler';
+const studentService = require('../services/studentService');
+const errorHandler = require('../utils/errorHandler');
 
 /**
  * Retrieves all students from the database.
@@ -11,7 +11,7 @@ async function getStudent(req, res) {
   try {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
-    const students = await getStudents(page, pageSize);
+    const students = await studentService.getStudents(page, pageSize);
     res.status(200).json(students);
   } catch (error) {
     errorHandler(error, res);
@@ -48,7 +48,7 @@ async function createStudent({ name, email, ra, cpf }) {
 }
 
 /**
-* Updates an existing student record.
+* Updates an existing student record in the database.
 * @param {number} id - The ID of the student to be updated.
 * @param {Object} updatedData - The updated data of the student.
 * @param {string} updatedData.name - The updated name of the student.
@@ -78,7 +78,7 @@ async function updateStudent(id, { name, email }) {
 async function deleteStudent(req, res) {
   try {
     const { id } = req.params;
-    const result = await _deleteStudent(id);
+    const result = await studentService.deleteStudent(id);
     res.status(200).json(result);
   } catch (error) {
     errorHandler(error, res); // Passes the response object to the errorHandler
