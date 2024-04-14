@@ -1,10 +1,9 @@
 const db = require('../models');
 const cpfCheck = require('cpf-check');
 const  errorHandler = require('../utils/errorHandler');
-// const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 // Regular expression pattern for validating email addresses
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
  * A service class for managing student-related operations.
@@ -25,6 +24,15 @@ class StudentService {
     }
   }
 
+  async getStudent(id) {
+    try {
+      const student = await db.Student.findByPk(id);
+      return student;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * Creates a new student record in the database.
    * @param {Object} studentData - The data of the student to be created.
@@ -35,10 +43,11 @@ class StudentService {
    * @returns {Promise<Object>} A promise that resolves to the created student object.
    */
   async createStudent({ name, email, cpf }) {
-    // Email validation using regular expression
-    if (!emailRegex.test(email)) {
-      throw new Error('Invalid email format');
-    }
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // // Email validation using regular expression
+    // if (!emailRegex.test(email)) {
+    //   throw new Error('Invalid email format');
+    // }
   
     // CPF validation using cpf-check library
     if (!cpfCheck.validate(cpf)) {
@@ -46,7 +55,7 @@ class StudentService {
     }
   
     try {
-      // const ra = uuidv4().replace(/-/g, '').slice(0, 20); // Generate a unique key for RA
+      const ra = uuidv4().replace(/-/g, '').slice(0, 20); // Generate a unique key for RA
       const student = await db.Student.create({ name, email, ra, cpf });
       return student.toJSON(); // Returns the data of the created student
     } catch (error) {

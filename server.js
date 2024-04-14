@@ -15,13 +15,15 @@ const app = express();
 // Middleware
 app.use(express.json());
 
+app.use(cors());
 // CORS middleware
+/* 
 app.use(cors({
   origin: 'http://localhost:8081', // Permitir apenas solicitações do frontend hospedado em http://localhost:8081
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir métodos específicos
   allowedHeaders: ['Content-Type', 'Authorization'] // Permitir cabeçalhos específicos
 }));
-
+*/
 // Connect to database
 db.sequelize.sync()
   .then(() => console.log('Connected to database'))
@@ -37,12 +39,13 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 // documentar o que falta
-// adicionar logout : a lógica e alterar o css 
+// ajustar css do logout
 // no frontend 
 // adicionar getStudentById
-
+// ajustar cors aqui
+// ajustar validação do email em StudentService
 // Se for criar estudante ele mostra nao exibe RA se for editar o campo CPF e RA não podem ser editados 
-
+// deixar services exportando da mesma forma
 // add docker 
 // testar migrations seed e criação do banco após concluir todos os ajustes
 // melhorar os testes | validacao cpf e email
