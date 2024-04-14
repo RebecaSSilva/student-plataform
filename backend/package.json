@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "db:create": "node createDatabase.js",
-    "db:migrate": "sequelize db:migrate",
-    "db:seed": "sequelize db:seed:all",
-    "db:setup": "npm run db:create && npm run db:migrate && npm run db:seed"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",

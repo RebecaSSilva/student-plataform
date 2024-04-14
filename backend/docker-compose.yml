@@ -3,7 +3,7 @@ services:
   nodejs:
     build: .
     ports:
-      - "8080:8000"   
+      - "8000:8000"   
     depends_on:
       - mysql
   mysql:
@@ -14,4 +14,4 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: 
     ports:
-      - "3307:3307"
+      - "3306:3306"

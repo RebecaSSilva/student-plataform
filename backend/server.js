@@ -15,14 +15,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
-// CORS middleware
-/* 
-app.use(cors({
-  origin: 'http://localhost:8081', // Permitir apenas solicitações do frontend hospedado em http://localhost:8081
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir métodos específicos
-  allowedHeaders: ['Content-Type', 'Authorization'] // Permitir cabeçalhos específicos
-}));
-*/
+
 // Connect to database
 db.sequelize.sync()
   .then(() => console.log('Connected to database'))
@@ -37,7 +30,6 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // ajustar validação cpf em StudentService - sejá está em uso e formatação
-// adicionar criação da tabela
 // relacionar as tabelas one to many etc
 // documentar o que falta
 // testar migrations seed e criação do banco após concluir todos os ajustes
