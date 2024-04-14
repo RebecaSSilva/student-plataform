@@ -50,6 +50,7 @@ async function createStudent(req, res) {
     const createdStudent = await studentService.createStudent({ name, email, cpf });
     res.status(201).json(createdStudent);
   } catch (error) {
+    console.log(error);
     errorHandler(error, res);
   }
 }

@@ -1,6 +1,6 @@
 const db = require('../models');
 const  errorHandler = require('../utils/errorHandler');
-
+const { v4: uuidv4 } = require('uuid');
 /**
  * A service class for managing student-related operations.
  */
@@ -46,46 +46,38 @@ class StudentService {
    */
   async createStudent({ name, email, cpf }) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    // Checks if the email has a valid format
+    // Verifica se o e-mail possui um formato válido
     if (!emailRegex.test(email)) {
         throw new Error('Invalid email format');
     }
-    // Checks if the email is already in use
+    // Verifica se o e-mail já está em uso
     const existingEmailStudent = await db.Student.findOne({ where: { email } });
     if (existingEmailStudent) {
         throw new Error('Email already in use');
     }
-    // Checks if the CPF is already in use
+
     const existingCpfStudent = await db.Student.findOne({ where: { cpf } });
     if (existingCpfStudent) {
-        throw new Error('CPF already in use');
+      throw new Error('CPF already in use');
     }
-
     try {
-        let ra;
-        let exists = true;
-        while (exists) {
-            ra = generateRandomNumber(1, 99999999999999999999); // Generate a random number up to 20 digits
-            exists = await db.Student.findOne({ where: { ra } });
-        }
+      const ra = this.generateRandomNumber(1, 9999999999999999999); // Acesso à função usando 'this'
 
-        const student = await db.Student.create({ name, email, ra, cpf });
-        return student.toJSON(); // Returns the data of the created student
+      const student = await db.Student.create({ name, email, ra, cpf });
+      return student.toJSON(); // Returns the data of the created student
     } catch (error) {
-        throw new Error('Error creating student: ' + error.message); // Throws a new error with a more specific message
+      throw new Error('Error creating student: ' + error.message); // Lançar um novo erro com mensagem mais específica
     }
   }
-
   /**
   * Generates a random number within the specified range.
   * @param {number} min - The minimum value of the range.
   * @param {number} max - The maximum value of the range.
   * @returns {number} A random number within the specified range.
   */
-  async generateRandomNumber(min, max) {
+  generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-
 
   /**
    * Updates an existing student record in the database.
