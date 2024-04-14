@@ -23,9 +23,9 @@ async function getStudentById(req, res) {
     const studentId = req.params.id; // Obtém o ID do parâmetro da URL
     const student = await studentService.getStudent(studentId); // Chama o serviço para obter o estudante por ID
     if (!student) {
-      return res.status(404).json({ message: 'Estudante não encontrado' }); // Retorna um erro 404 se o estudante não for encontrado
+      return res.status(404).json({ message: 'Student not found' }); // Retorna um erro 404 se o estudante não for encontrado
     }
-    res.status(200).json(student); // Retorna o estudante encontrado
+    res.status(200).json(student); // Return the student
   } catch (error) {
     errorHandler(error, res); 
   }
@@ -51,23 +51,20 @@ async function createStudent(req, res) {
 /**
 * Updates an existing student record in the database.
 * @param {number} id - The ID of the student to be updated.
-* @param {Object} updatedData - The updated data of the student.
 * @param {string} updatedData.name - The updated name of the student.
 * @param {string} updatedData.email - The updated email of the student.
 * @returns {Promise<Object>} A promise that resolves to the updated student object.
 * @throws {Error} If the student with the specified ID is not found.
 */
-async function updateStudent(id, { name, email }) {
- try {
-   const student = await db.Student.findByPk(id);
-   if (!student) {
-     throw new Error('Student not found');
-   }
-   await student.update({ name, email });
-   return student.toJSON(); // Returns the data of the updated student
- } catch (error) {
-   errorHandler(error);
- }
+async function updateStudent(req, res) {
+  const { id } = req.params;
+  const { name, email } = req.body; 
+  try {
+    const updatedStudent = await studentService.updateStudent(id, { name, email });
+    res.json(updatedStudent);
+  } catch (error) {
+    errorHandler(error, res); 
+  }
 }
 
 /**
@@ -82,7 +79,7 @@ async function deleteStudent(req, res) {
     const result = await studentService.deleteStudent(id);
     res.status(200).json(result);
   } catch (error) {
-    errorHandler(error, res); // Passes the response object to the errorHandler
+    errorHandler(error, res);
   }
 }
 
