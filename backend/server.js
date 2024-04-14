@@ -15,15 +15,9 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-app.use(cors());
 // CORS middleware
-/* 
-app.use(cors({
-  origin: 'http://localhost:8081', // Permitir apenas solicitações do frontend hospedado em http://localhost:8081
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir métodos específicos
-  allowedHeaders: ['Content-Type', 'Authorization'] // Permitir cabeçalhos específicos
-}));
-*/
+app.use(cors());
+
 // Connect to database
 db.sequelize.sync()
   .then(() => console.log('Connected to database'))
@@ -37,20 +31,5 @@ app.use('/api/user', authRoutes);
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-
-// ajustar paginação
-// ajustar validação cpf em StudentService - sejá está em uso e formatação
-// add docker 
-// colocar back end dentro de uma pasta
-// adicionar criação da tabela
-// relacionar as tabelas one to many etc
-// usar ts
-// documentar o que falta
-// testar migrations seed e criação do banco após concluir todos os ajustes
-// git flow
-// validar para pegar nome completo e não só o primeiro nome 
-
-// front end
-// ajustar a rota de login do front end para pegar direto do back end 
-// adicionar as validações dos campos no front end 
-// ajustar css do logout
+// relacionar as tabelas one to many etc | falta associar isso 
+// ajustar paginação e melhorar testes

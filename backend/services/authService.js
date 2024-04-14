@@ -69,7 +69,6 @@ class AuthService {
 
       return token;
     } catch (error) {
-      // If an error occurs, call the errorHandler function to handle the error consistently
       errorHandler(error);
     }
   }

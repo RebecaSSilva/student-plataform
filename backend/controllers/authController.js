@@ -20,7 +20,7 @@ async function register(req, res) {
 /**
  * Handles user login.
  * @param {Object} req - The request object.
- * @param {Object} res - The response object. b
+ * @param {Object} res - The response object. 
  * @returns {Promise<void>} A promise that resolves once login is complete.
  */
 async function login(req, res) {

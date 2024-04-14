@@ -5,11 +5,11 @@ jest.mock('../services/studentService');
 
 describe('getStudent', () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Clear all mocks after each test
+    jest.clearAllMocks(); 
   });
 
   it('should return students', async () => {
-    const mockStudents = [{ id: 1, name: 'John', email: 'john@hotmail.com', cpf: '408.254.180-20', ra: '12345678'}];
+    const mockStudents = [{ id: 1,name: 'John', email: 'john@hotmail.com', cpf: '40825418020', ra: '12345678'}];
     const req = {};
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -53,7 +53,7 @@ describe('createStudent', () => {
   });
 
   it('should create a new student', async () => {
-    const mockStudentData = { name: 'John Doe', email: 'john.doe@example.com', ra: '12345678', cpf: '408.254.180-20' };
+    const mockStudentData = { name: 'John Doe', email: 'john.doe@example.com', cpf: '40825418020' };
     const req = { body: mockStudentData };
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -115,14 +115,14 @@ describe('updateStudent', () => {
 
     expect(studentService.updateStudent).toHaveBeenCalledTimes(1);
     expect(studentService.updateStudent).toHaveBeenCalledWith(mockStudentId, mockStudentData);
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(200); // Aqui está a expectativa para o status 200
     expect(res.json).toHaveBeenCalledWith(mockUpdatedStudent);
     expect(next).not.toHaveBeenCalled();
   });
 
   it('should handle errors', async () => {
     const errorMessage = 'Error updating student';
-    const req = { params: { id: 1 }, body: {} };
+    const req = { params: { id: 1 }, body: { name: 'John Doe', email: 'john.doe@example.com' } };
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
@@ -139,6 +139,7 @@ describe('updateStudent', () => {
     expect(res.json).not.toHaveBeenCalled();
   });
 });
+
 
 describe('deleteStudent', () => {
   afterEach(() => {

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const  errorHandler  = require('../utils/errorHandler');
+const errorHandler = require('../utils/errorHandler');
 const { register, login } = require('../controllers/authController');
 
-router.post('/register', register);
-router.post('/login', login);
+// Routes
+router.post('/register', register); // POST /auth/register
+router.post('/login', login); // POST /auth/login
 
-// Middleware to handle errors
+// Error handling middleware
 router.use(errorHandler);
 
 module.exports = router;
