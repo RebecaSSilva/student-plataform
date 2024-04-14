@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  errorHandler  = require('../utils/errorHandler');
+const errorHandler = require('../utils/errorHandler');
 const authenticateToken = require('../middleware/authenticateToken');
 const {
   getStudent,
@@ -10,14 +10,14 @@ const {
   getStudentById
 } = require('../controllers/studentController');
 
-// Routes protected by authentication middleware
-router.get('/', authenticateToken, getStudent);
-router.get('/:id', authenticateToken, getStudentById);
-router.post('/', authenticateToken, createStudent);
-router.put('/:id', authenticateToken, updateStudent);
-router.delete('/:id', authenticateToken, deleteStudent);
+// Routes
+router.get('/', authenticateToken, getStudent); // GET /students
+router.get('/:id', authenticateToken, getStudentById); // GET /students/:id
+router.post('/', authenticateToken, createStudent); // POST /students
+router.put('/:id', authenticateToken, updateStudent); // PUT /students/:id
+router.delete('/:id', authenticateToken, deleteStudent); // DELETE /students/:id
 
-// Middleware to handle errors
+// Error handling middleware
 router.use(errorHandler);
 
 module.exports = router;

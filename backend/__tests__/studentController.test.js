@@ -3,11 +3,17 @@ const studentService = require('../services/studentService');
 
 jest.mock('../services/studentService');
 
+/**
+ * Test suite for the getStudent function in the student controller.
+ */
 describe('getStudent', () => {
   afterEach(() => {
     jest.clearAllMocks(); // Clear all mocks after each test
   });
 
+  /**
+   * Test case to verify successful retrieval of students.
+   */
   it('should return students', async () => {
     const mockStudents = [{ id: 1, name: 'John', email: 'john@hotmail.com', cpf: '408.254.180-20', ra: '12345678'}];
     const req = {};
@@ -27,6 +33,9 @@ describe('getStudent', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  /**
+   * Test case to verify error handling during student retrieval.
+   */
   it('should handle errors', async () => {
     const errorMessage = 'Error fetching students';
     const req = {};
@@ -47,11 +56,17 @@ describe('getStudent', () => {
   });
 });
 
+/**
+ * Test suite for the createStudent function in the student controller.
+ */
 describe('createStudent', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  /**
+   * Test case to verify successful creation of a new student.
+   */
   it('should create a new student', async () => {
     const mockStudentData = { name: 'John Doe', email: 'john.doe@example.com', ra: '12345678', cpf: '408.254.180-20' };
     const req = { body: mockStudentData };
@@ -73,6 +88,9 @@ describe('createStudent', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  /**
+   * Test case to verify error handling during student creation.
+   */
   it('should handle errors', async () => {
     const errorMessage = 'Error creating student';
     const req = { body: {} };
@@ -93,11 +111,17 @@ describe('createStudent', () => {
   });
 });
 
+/**
+ * Test suite for the updateStudent function in the student controller.
+ */
 describe('updateStudent', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  /**
+   * Test case to verify successful update of an existing student.
+   */
   it('should update an existing student', async () => {
     const mockStudentId = 1;
     const mockStudentData = { name: 'John Doe', email: 'john.doe@example.com' };
@@ -120,6 +144,9 @@ describe('updateStudent', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  /**
+   * Test case to verify error handling during student update.
+   */
   it('should handle errors', async () => {
     const errorMessage = 'Error updating student';
     const req = { params: { id: 1 }, body: {} };
@@ -140,11 +167,17 @@ describe('updateStudent', () => {
   });
 });
 
+/**
+ * Test suite for the deleteStudent function in the student controller.
+ */
 describe('deleteStudent', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  /**
+   * Test case to verify successful deletion of an existing student.
+   */
   it('should delete an existing student', async () => {
     const mockStudentId = 1;
     const req = { params: { id: mockStudentId } };
@@ -166,6 +199,9 @@ describe('deleteStudent', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  /**
+   * Test case to verify error handling during student deletion.
+   */
   it('should handle errors', async () => {
     const errorMessage = 'Error deleting student';
     const req = { params: { id: 1 } };

@@ -2,17 +2,20 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 
-// Carregar o arquivo de configuração do banco de dados
+// Load the database configuration file
 const configPath = path.resolve(__dirname, 'config', 'config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
-// Configurar a conexão com o banco de dados
+// Configure the database connection
 const sequelize = new Sequelize(config[process.env.NODE_ENV]);
 
-// Obter o nome do banco de dados do arquivo de configuração
+// Get the database name from the configuration file
 const databaseName = config[process.env.NODE_ENV].database;
 
-// Função para criar o banco de dados
+/**
+ * Function to create the database if it does not exist.
+ * @returns {Promise<void>} A promise that resolves once the database is created or throws an error if creation fails.
+ */
 async function createDatabase() {
   try {
     await sequelize.query(`CREATE DATABASE IF NOT EXISTS ${databaseName};`);
@@ -24,4 +27,5 @@ async function createDatabase() {
   }
 }
 
+// Call the function to create the database
 createDatabase();

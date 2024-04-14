@@ -37,8 +37,4 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // testar migrations seed e criação do banco após concluir todos os ajustes
 // git flow
 // validar para pegar nome completo e não só o primeiro nome 
-
-// front end
-// ajustar a rota de login do front end para pegar direto do back end 
-// adicionar as validações dos campos no front end 
-// ajustar css do logout
+// adicionar biblioteca para ajustar que atualiza dependencias
