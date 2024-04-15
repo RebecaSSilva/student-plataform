@@ -1,51 +1,58 @@
 <template>
-  <v-data-table :headers="headers" :items="students" :search="search">
-    <template v-slot:top>
-      <div class="actions-table-section">
-        <div class="search">
-          <v-text-field
-            v-model="search"
-            label="Digite sua busca"
-            class="search-field"
-            append-inner-icon="mdi-magnify"
-            variant="outlined"
-            full-width="true"
-            hide-details
-            single-line
-          ></v-text-field>
+  <div>
+    <v-data-table :headers="headers" :items="students" :search="search">
+      <template v-slot:top>
+        <div class="actions-table-section">
+          <div class="search">
+            <v-text-field
+              v-model="search"
+              label="Digite sua busca"
+              class="search-field"
+              append-inner-icon="mdi-magnify"
+              variant="outlined"
+              full-width="true"
+              hide-details
+              single-line
+            ></v-text-field>
+          </div>
+          <div class="action-add-student">
+            <v-btn class="mb-2" color="black" dark @click="$emit('openDialogStudent')">
+              Cadastrar Aluno
+            </v-btn>
+          </div>
         </div>
-        <div class="action-add-student">
-          <v-btn class="mb-2" color="black" dark @click="$emit('openDialogStudent')">
-            Cadastrar Aluno
-          </v-btn>
-        </div>
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5"
+              >Tem certeza que deseja deletar esse estudante?</v-card-title
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue-darken-1" variant="text" @click="closeDelete"
+                >Cancelar</v-btn
+              >
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="deleteItemConfirm"
+                >Deletar</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-icon small class="mr-2" @click="$emit('editStudent', item)"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+      </template>
+    </v-data-table>
+      <div class="pagination-controls">
+        <v-btn @click="prevPage" :disabled="currentPage === 1">Anterior</v-btn>
+        <span class="page">Página {{ currentPage }}</span>
+        <v-btn @click="nextPage" :disabled="currentPage * pageSize >= totalStudentsCount">Próximo</v-btn>
       </div>
-      <v-dialog v-model="dialogDelete" max-width="500px">
-        <v-card>
-          <v-card-title class="text-h5"
-            >Tem certeza que deseja deletar esse estudante?</v-card-title
-          >
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue-darken-1" variant="text" @click="closeDelete"
-              >Cancelar</v-btn
-            >
-            <v-btn
-              color="blue-darken-1"
-              variant="text"
-              @click="deleteItemConfirm"
-              >Deletar</v-btn
-            >
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </template>
-    <template v-slot:[`item.actions`]="{ item }">
-      <v-icon small class="mr-2" @click="$emit('editStudent', item)"> mdi-pencil </v-icon>
-      <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-    </template>
-  </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -60,6 +67,8 @@ export default {
   data: () => ({
     search: "",
     dialogDelete: false,
+    currentPage: 1, 
+    pageSize: 10, 
     headers: [
       {
         title: "RA",
@@ -95,15 +104,30 @@ export default {
   methods: {
     async getStudents() {
       try {
-        const response = await axios.get('/');
+        const response = await axios.get('/', {
+          params: {
+            page: this.currentPage,
+            pageSize: this.pageSize
+          }
+        });
         this.students = response.data;
-
       } catch (error) {
-        
-        this.$emit("snackbar", {show: true, text:"Server was unable to respond.Please try again later", color:"error"})
-        this.$emit("updateList"); 
-
-
+        this.$emit("snackbar", { show: true, text: "The server was unable to respond. Please try again later.", color: "error" })
+        this.$emit("updateList");
+      }
+    },
+    async goToPage(page) {
+      this.currentPage = page;
+      this.getStudents();
+    },
+    async nextPage() {
+      this.currentPage++;
+      this.getStudents();
+    },
+    async prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.getStudents();
       }
     },
     deleteItem(item) {
@@ -136,3 +160,17 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-data-table-footer{
+  display: none;
+}
+.pagination-controls {
+  display: flex;
+  justify-content: flex-end; 
+  margin: 10px;
+}
+.page{
+  margin:10px
+}
+</style>

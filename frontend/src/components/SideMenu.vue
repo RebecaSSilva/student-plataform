@@ -14,7 +14,7 @@
 
     <v-list dense class="pt-0">
       <v-list-tile>
-        <v-list-tile-content>
+        <v-list-tile-content class="student">
           <v-list-tile-title>Alunos</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -37,3 +37,8 @@ export default {
   }
 };
 </script>
+<style>
+.student{
+  margin: 10px;
+}
+</style>
