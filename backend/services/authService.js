@@ -13,7 +13,7 @@ class AuthService {
    * @param {string} userData.password - The user's password.
    * @returns {Promise<Object>} A Promise that resolves with the registered user data.
    */
-  async registerUser({ name, email, password }) {
+  async registerUser({ email, password }) {
   // Regular expression pattern for validating email addresses
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
@@ -33,7 +33,7 @@ class AuthService {
       const hashedPassword = await bcrypt.hash(password, salt);
 
       // Create a new user in the database
-      const newUser = await User.create({ name, email, password: hashedPassword });
+      const newUser = await User.create({ email, password: hashedPassword });
 
       return newUser;
     } catch (error) {

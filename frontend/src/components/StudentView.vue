@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-data-table :headers="headers" :items="students" :search="search">
     <template v-slot:top>
       <div class="actions-table-section">
@@ -46,85 +47,130 @@
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
   </v-data-table>
+    <div class="pagination-controls">
+      <v-btn @click="prevPage" :disabled="currentPage === 1">Anterior</v-btn>
+      <span class="page">Página {{ currentPage }}</span>
+      <v-btn @click="nextPage" :disabled="currentPage * pageSize >= totalStudentsCount">Próximo</v-btn>
+    </div>
+</div>
 </template>
 
 <script>
 import axios from '@/axiosConfig';
 
 export default {
-  name: "StudentView",
+name: "StudentView",
 
-  mounted(){
+mounted(){
+  this.getStudents();
+},
+data: () => ({
+  search: "",
+  dialogDelete: false,
+  currentPage: 1, 
+  pageSize: 10, 
+  headers: [
+    {
+      title: "RA",
+      align: "start",
+      sortable: true,
+      key: "ra",
+    },
+    { title: "Nome", key: "name", sortable: true },
+    { title: "E-mail", key: "email", sortable: true },
+    { title: "CPF", key: "cpf", sortable: true },
+    { title: "Ações", key: "actions", sortable: false },
+  ],
+  students: [],
+  editedItem: {
+    registroAcademicio: "",
+    nome: "",
+    cpf: "",
+  },
+  defaultItem: {
+    registroAcademicio: "",
+    nome: "",
+    cpf: "",
+  },
+}),
+watch: {
+  updateList() {
     this.getStudents();
   },
-  data: () => ({
-    search: "",
-    dialogDelete: false,
-    headers: [
-      {
-        title: "RA",
-        align: "start",
-        sortable: true,
-        key: "ra",
-      },
-      { title: "Nome", key: "name", sortable: true },
-      { title: "E-mail", key: "email", sortable: true },
-      { title: "CPF", key: "cpf", sortable: true },
-      { title: "Ações", key: "actions", sortable: false },
-    ],
-    students: [],
-    editedIndex: -1,
-    editedItem: {
-      registroAcademicio: "",
-      nome: "",
-      cpf: "",
-    },
-    defaultItem: {
-      registroAcademicio: "",
-      nome: "",
-      cpf: "",
-    },
-  }),
-  watch: {
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
+  dialogDelete(val) {
+    val || this.closeDelete();
   },
-  methods: {
-    async getStudents() {
-      try {
-        const response = await axios.get('/');
-        this.students = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    deleteItem(item) {
-      this.editedIndex = this.students.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    async deleteItemConfirm() {
-      try {
-        const response = await axios.delete(`/${this.editedItem.id}`);
-        if (response.status === 200) {
-          this.students.splice(this.editedIndex, 1);
-          this.closeDelete();
-        } else {
-          console.error('Falha ao excluir o estudante.');
+},
+methods: {
+  async getStudents() {
+    try {
+      const response = await axios.get('/', {
+        params: {
+          page: this.currentPage,
+          pageSize: this.pageSize
         }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
       });
-    },
+      this.students = response.data;
+    } catch (error) {
+      this.$emit("snackbar", { show: true, text: "The server was unable to respond. Please try again later.", color: "error" })
+      this.$emit("updateList");
+    }
   },
+  async goToPage(page) {
+    this.currentPage = page;
+    this.getStudents();
+  },
+  async nextPage() {
+    this.currentPage++;
+    this.getStudents();
+  },
+  async prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getStudents();
+    }
+  },
+  deleteItem(item) {
+    this.editedIndex = this.students.indexOf(item);
+    this.editedItem = Object.assign({}, item);
+    this.dialogDelete = true;
+  },
+
+  async deleteItemConfirm() {
+    try {
+      const response = await axios.delete(`/${this.editedItem.id}`);
+      if (response.status === 200) {
+        this.$emit("snackbar", {show: true, text:`Student ${this.editedItem.name} was deleted succesfuly.`, color:"success"})
+        this.closeDelete();
+        this.getStudents();
+      } else {
+        this.$emit("snackbar", {show: true, text:`Failed to delet student.`, color:"error"})
+      }
+    } catch (error) {
+      this.$emit("snackbar", {show: true, text:"Server was unable to respond.Please try again later", color:"error"})
+    }
+  },
+  closeDelete() {
+    this.dialogDelete = false;
+    this.$nextTick(() => {
+      this.editedItem = Object.assign({}, this.defaultItem);
+      this.editedIndex = -1;
+    });
+  },
+},
 };
 </script>
+
+<style>
+.v-data-table-footer{
+display: none;
+}
+.pagination-controls {
+display: flex;
+justify-content: flex-end; 
+margin: 10px;
+}
+.page{
+margin:10px
+}
+</style>

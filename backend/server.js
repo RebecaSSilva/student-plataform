@@ -30,6 +30,3 @@ app.use('/api/user', authRoutes);
 // Start the server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// relacionar as tabelas one to many etc | falta associar isso 
-// ajustar paginação e melhorar testes

@@ -9,8 +9,8 @@ const errorHandler = require('../utils/errorHandler');
  */
 async function register(req, res) {
   try {
-    const { name, email, password } = req.body;
-    const newUser = await userService.registerUser({ name, email, password });
+    const { email, password } = req.body;
+    const newUser = await userService.registerUser({ email, password });
     res.send(newUser);
   } catch (error) {
     errorHandler(error, res); // Pass the response object to the errorHandler

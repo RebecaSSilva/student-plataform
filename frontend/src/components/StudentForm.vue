@@ -14,10 +14,11 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="name"
+                    v-model="studentEntity.name"
                     placeholder="Informe o nome completo"
                     variant="outlined"
                     density="compact"
+                    :rules="[rules.required]"
                     single-line
                   ></v-text-field>
                 </div>
@@ -33,16 +34,17 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="email"
+                    v-model="studentEntity.email"
                     placeholder="Informe apenas um e-mail"
                     variant="outlined"
                     density="compact"
                     single-line
+                    :rules="[rules.email]"
                   ></v-text-field>
                 </div>
               </div>
             </v-col>
-            <v-col cols="12">
+            <v-col v-show="edit" cols="12">
               <div class="d-flex input-group">
                 <div style="width: 20%">
                   <div class="d-flex justify-center align-center outline-label">
@@ -52,10 +54,11 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="ra"
+                    v-model="studentEntity.ra"
                     placeholder="Informe o registro acadêmico"
                     variant="outlined"
                     density="compact"
+                    :disabled="edit"
                     single-line
                   ></v-text-field>
                 </div>
@@ -71,10 +74,13 @@
 
                 <div style="width: 80%">
                   <v-text-field
-                    v-model="cpf"
+                    v-model="studentEntity.cpf"
                     placeholder="Informe o número do CPF"
                     variant="outlined"
+                    :disabled="edit"
                     density="compact"
+                    :rules="[rules.cpf]"
+
                     single-line
                   ></v-text-field>
                 </div>
@@ -87,52 +93,93 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="$emit('closeFormStudent')">
+      <v-btn color="blue darken-1" text @click="closeStudentForm">
         CANCELAR
       </v-btn>
-      <v-btn color="blue darken-1" text @click="save"> SALVAR </v-btn>
+      <v-btn color="blue darken-1" text @click="save()"> SALVAR </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import axios from '@/axiosConfig';
+import axios from "@/axiosConfig";
 
 export default {
-    props: {
-        student: Object
+  props: {
+    edit: Boolean,
+    student: Object,
+  },
+  watch: {
+    student(val) {
+      this.studentEntity = { ...val };
     },
-    data: () => ({}),
+  },
+  data: () => ({
+    rules: {
+       required: (value) => !!value || "Required.",
+    cpf: (value) => {
+      if (!value) return true;
+     const cpfRegex = /^(\d{3})?(\d{3})?(\d{3})?(\d{2})$/;
+
+      return cpfRegex.test(value) || "Invalid CPF format.";
+    },
+    email: (value) => {
+      if (!value) return true;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(value) || "Invalid email format.";
+    },
+    },
+    studentEntity: {
+      id: null,
+      name: "",
+      cpf: "",
+      ra: "",
+      emial: "",
+    },
+  }),
+  methods: {
+    closeStudentForm() {
+      this.studentEntity = {};
+      this.$emit('closeFormStudent')
+    },
     async save() {
       try {
-        if (this.student.id) {
+        console.log(this.studentEntity.id);
+        if (this.studentEntity.id) {
           // If student ID exists, it's an edit
           await axios.put(`/${this.student.id}`, {
-            name: this.student.name,
-            email: this.student.email
+            name: this.studentEntity.name,
+            email: this.studentEntity.email,
           });
           // Logic for handling update after edit
-          console.log('Student updated successfully!');
-        } else {
-          // If student ID doesn't exist, it's a new student  
-          // Check if a student with the same RA already exists
-          const existingStudent = await axios.get(`/${this.student.id}`);
-          if (existingStudent.data) {
-            console.log('A student with the same ID already exists.');
-            return; // Exit without creating a new student
-          }
-          // If no student with the same RA exists, proceed with creating the new student
-          await axios.put(`/${this.student.id}`, {
-            name: this.student.name,
-            cpf: this.student.cpf,
-            email: this.student.email
+          this.$emit("snackbar", {
+            show: true,
+            text: "Student updated successfully!",
+            color: "success",
           });
-          console.log('A student was been created.');
+        } else {
+          await axios.post(`/`, {
+            name: this.studentEntity.name,
+            cpf: this.studentEntity.cpf,
+            ra: "dsadsa",
+            email: this.studentEntity.email,
+          });
+          this.$emit("snackbar", {
+            show: true,
+            text: "A student was created successfully.",
+            color: "success",
+          });
+          this.$emit("updateList");
+          this.$emit("closeFormStudent");
         }
       } catch (error) {
-        console.error('Error:', error);
+        this.$emit("snackbar", {
+          show: true,
+          text: error.response.data.error,
+          color: "error",
+        });
       }
-    },  
+    },
+  },
 };
-
 </script>
