@@ -150,7 +150,6 @@ export default {
             name: this.studentEntity.name,
             email: this.studentEntity.email,
           });
-          // Logic for handling update after edit
           this.$emit("snackbar", {
             show: true,
             text: "Student updated successfully!",
@@ -160,7 +159,6 @@ export default {
           await axios.post(`/`, {
             name: this.studentEntity.name,
             cpf: this.studentEntity.cpf,
-            ra: "dsadsa",
             email: this.studentEntity.email,
           });
           this.$emit("snackbar", {
