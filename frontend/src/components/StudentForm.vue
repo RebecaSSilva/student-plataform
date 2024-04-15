@@ -144,7 +144,6 @@ export default {
     },
     async save() {
       try {
-        console.log(this.studentEntity.id);
         if (this.studentEntity.id) {
           // If student ID exists, it's an edit
           await axios.put(`/${this.student.id}`, {

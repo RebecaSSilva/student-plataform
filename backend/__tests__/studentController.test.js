@@ -2,7 +2,6 @@ const studentController = require('../controllers/studentController');
 const studentService = require('../services/studentService');
 
 jest.mock('../services/studentService');
-// Importe o studentController e o studentService
 
 describe('getStudent', () => {
 afterEach(() => {
@@ -18,7 +17,6 @@ it('should return students', async () => {
   };
   const next = jest.fn();
 
-  // Mockando a função getStudents corretamente
   studentService.getStudents = jest.fn().mockResolvedValue(mockStudents);
 
   await studentController.getStudent(req, res, next);
@@ -34,7 +32,6 @@ it('should handle errors', async () => {
   };
   const next = jest.fn();
 
-  // Mockando a função getStudents para retornar um erro
   studentService.getStudents = jest.fn().mockRejectedValue(new Error(errorMessage));
 
   await studentController.getStudent(req, res, next);
